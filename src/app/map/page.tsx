@@ -1,5 +1,11 @@
+import dynamic from "next/dynamic";
+
+const MapWithNoSSR = dynamic(() => import("../../components/Map/Map"), {
+  ssr: false
+});
+
 export default function Home() {
     return (
-      <h1>Map Page</h1>
+      <MapWithNoSSR />
     )
   }

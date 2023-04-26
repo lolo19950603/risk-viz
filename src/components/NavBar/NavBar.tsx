@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-import classes from './MainNavigation.module.css';
+import classes from './NavBar.module.css';
 
-function MainNavigation() {
+function NavBar() {
   return (
     <nav className={classes.nav}>
       <ul>
@@ -17,4 +17,4 @@ function MainNavigation() {
   );
 }
 
-export default MainNavigation;
+export default NavBar;
