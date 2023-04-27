@@ -6,6 +6,8 @@ const MapWithNoSSR = dynamic(() => import("../../components/Map/Map"), {
 
 export default function Home() {
     return (
-      <MapWithNoSSR />
+      <div className="h-screen bg-white p-24">
+        <MapWithNoSSR />
+      </div>
     )
   }
