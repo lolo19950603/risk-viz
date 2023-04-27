@@ -11,9 +11,9 @@ export async function GET(request: Request) {
     }
 }
 
-export async function POST(request: Request) {
-        return NextResponse.json({id:'1', name:"loren"})
-}
+// export async function POST(request: Request) {
+//         return NextResponse.json({id:'1', name:"loren"})
+// }
   
   
   
