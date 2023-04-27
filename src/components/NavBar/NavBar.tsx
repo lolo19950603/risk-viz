@@ -19,10 +19,10 @@ function NavBar() {
       </div>
       <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}>
         <div className="text-sm lg:flex-grow">
-          <Link href="/map" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-orange-300">
+          <Link href="/map" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-orange-300 mr-4">
             Map
           </Link>
-          <Link href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-orange-300">
+          <Link href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-orange-300 mr-4">
             Examples
           </Link>
           <Link href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-orange-300">

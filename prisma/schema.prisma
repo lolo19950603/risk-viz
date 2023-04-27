@@ -17,5 +17,6 @@ model Asset {
   long          Decimal
   category      String
   riskRating    Decimal
-  rishFactor    Json
+  riskFactor    Json
+  year          Int
 }
