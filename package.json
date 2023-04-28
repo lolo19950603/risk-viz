@@ -16,6 +16,7 @@
     "autoprefixer": "10.4.14",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
+    "exceljs": "^4.3.0",
     "leaflet": "^1.9.3",
     "leaflet-defaulticon-compatibility": "^0.1.1",
     "leaflet-geosearch": "^3.8.0",
