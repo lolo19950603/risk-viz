@@ -5,7 +5,8 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import Leaflet from 'leaflet';
 import { useState, useEffect, useRef } from 'react';
-import DecadeFilter from '../../components/DecadeFilter/DecadeFilter'
+import DecadeFilter from '../DecadeFilter/DecadeFilter';
+import ColorIndicator from '../ColorIndicator/ColorIndicator'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
@@ -43,7 +44,7 @@ export default function Map({data}:{data:any[]}) {
       }
       if (40 <= count[key] && count[key] < 50) {
         icon = Leaflet.icon({
-          iconUrl: 'images/40-60yellow.png',
+          iconUrl: 'images/40-50yellow.png',
           iconSize: [32, 32]
         })
       }
@@ -78,6 +79,7 @@ export default function Map({data}:{data:any[]}) {
         activeDecade={activeDecade}
         setActiveDecade={setActiveDecade}
       />
+      <ColorIndicator/>
       <MapContainer center={[50.1304,-98.3468]} zoom={3} scrollWheelZoom={false} style={{width: '100%', height: '80vh'}}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
