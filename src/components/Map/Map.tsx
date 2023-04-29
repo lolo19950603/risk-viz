@@ -2,7 +2,8 @@
 
 // build map that shows more marker when zoom in
 
-import { MapContainer, TileLayer,Marker,Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import Leaflet from 'leaflet';
 import { useState, useEffect, useRef } from 'react';
 import DecadeFilter from '../../components/DecadeFilter/DecadeFilter'
 import 'leaflet/dist/leaflet.css'
@@ -10,10 +11,56 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 
 export default function Map({data}:{data:any[]}) {
+  type activeDecadeLocationType = {[key: string]: number}
   const [assets, setAssets] = useState<any[]>([]);
   const [activeDecade, setActiveDecade] = useState(0);
-
+  // const [activeDecadeLocation, setActiveDecadeLocation] = useState<activeDecadeLocationType>({});
   const decadeFiltersRef = useRef<number[]>([]);
+
+  function riskRatingToColour(year : number) {
+    var count:{[key: string]: number} = {}
+    data.forEach(asset => {
+      if (asset.year === year) {
+        const location:string = [asset.lat, asset.long].toString()
+        if (location in count) {
+          count[location] += Number(asset.riskRating)
+        }
+        else {
+          count[location] = Number(asset.riskRating)
+        }
+      }
+    })
+    
+    var answer:JSX.Element[] = []
+    var icon:any
+
+    Object.keys(count).map(key => {
+      if (count[key] < 40) {
+        icon = Leaflet.icon({
+          iconUrl: 'images/30-40green.png',
+          iconSize: [32, 32]
+        })
+      }
+      if (40 <= count[key] && count[key] < 50) {
+        icon = Leaflet.icon({
+          iconUrl: 'images/40-60yellow.png',
+          iconSize: [32, 32]
+        })
+      }
+      if (count[key] >= 50) {
+        icon = Leaflet.icon({
+          iconUrl: 'images/50-60red.png',
+          iconSize: [32, 32]
+        })
+      }
+      answer.push(
+        <Marker key={key} position={[Number(key.split(",")[0]), Number(key.split(",")[1])]} icon={icon}>
+          <Popup>Total Rating: {count[key]}</Popup>
+        </Marker>
+      )
+    })
+    return answer
+  }
 
   useEffect(function() {
     async function getAssets() {
@@ -24,10 +71,6 @@ export default function Map({data}:{data:any[]}) {
     getAssets();
   }, []);
 
-  function riskRatingToColour(rating : number) {
-    
-  }
-  
   return (
     <main>
       <DecadeFilter
@@ -40,15 +83,7 @@ export default function Map({data}:{data:any[]}) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {assets.map((asset) => {
-          if (asset.year === activeDecade) {
-            return (
-              <Marker key={asset.id} position={[asset.lat, asset.long]}>
-                {/* <Popup>{asset.id+","+asset.lat +","+ asset.long}</Popup> */}
-              </Marker>
-            )
-          }
-        })}
+        {riskRatingToColour(activeDecade)}
       </MapContainer>
     </main>
   )

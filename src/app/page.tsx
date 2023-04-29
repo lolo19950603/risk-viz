@@ -7,7 +7,7 @@ const MapWithNoSSR = dynamic(() => import("../components/Map/Map"), {
 async function getAssets() {
   const res = await fetch(`${process.env.BASE_URL}/api/assets`, {
     method: 'GET',
-    // next: { revalidate: 1 },
+    next: { revalidate: 1 },
   })
   if (!res.ok) {
     console.log(res)
