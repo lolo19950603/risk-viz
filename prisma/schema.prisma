@@ -13,10 +13,10 @@ datasource db {
 model Asset {
   id            Int       @id @default(autoincrement())
   name          String
-  lat           Decimal
-  long          Decimal
+  lat           Decimal   @db.Decimal(65,4)
+  long          Decimal   @db.Decimal(65,4)
   category      String
-  riskRating    Decimal
+  riskRating    Decimal   @db.Decimal(65,2)
   riskFactor    Json
   year          Int
 }

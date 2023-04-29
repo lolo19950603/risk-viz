@@ -6,7 +6,8 @@ const MapWithNoSSR = dynamic(() => import("../components/Map/Map"), {
 
 async function getAssets() {
   const res = await fetch(`${process.env.BASE_URL}/api/assets`, {
-    method: 'GET'
+    method: 'GET',
+    // next: { revalidate: 1 },
   })
   if (!res.ok) {
     console.log(res)
@@ -15,11 +16,10 @@ async function getAssets() {
 }
 
 export default async function Page() {
-  const assets = await getAssets();
-  console.log(assets.length)
+  const data: any[] = await getAssets();
   return (
-    <div className="h-screen bg-white p-24">
-      <MapWithNoSSR />
+    <div className="m-8">
+      <MapWithNoSSR data={data} />
     </div>
   )
 }

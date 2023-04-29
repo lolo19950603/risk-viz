@@ -11,6 +11,7 @@ const getCellValue = (row:  Excel.Row, cellIndex: number) => {
 };
 
 const main = async () => {
+  await prisma.asset.deleteMany({});
   const workbook = new Excel.Workbook();
   const content = await workbook.xlsx.readFile(filePath);
 
@@ -20,18 +21,19 @@ const main = async () => {
 
   const rows = worksheet.getRows(rowStartIndex, numberOfRows) ?? [];
 
-  rows.forEach(async (row) => {
-    const data = await prisma.asset.create({
-      data: {
-        name: getCellValue(row, 1),
-        lat: parseInt(getCellValue(row, 2)),
-        long: parseInt(getCellValue(row, 3)),
-        category: getCellValue(row, 4),
-        riskRating: parseInt(getCellValue(row, 5)),
-        riskFactor: JSON.parse(getCellValue(row, 6)),
-        year: parseInt(getCellValue(row, 7))
-      },
-    })
-    console.log(data)
-  });
+  const dataset = rows.map((row) => (
+      {
+          name: getCellValue(row, 1),
+          lat: Number(getCellValue(row, 2)),
+          long: Number(getCellValue(row, 3)),
+          category: getCellValue(row, 4),
+          riskRating: Number(getCellValue(row, 5)),
+          riskFactor: JSON.parse(getCellValue(row, 6)),
+          year: Number(getCellValue(row, 7))
+      }
+  ))
+
+  const final = await prisma.asset.createMany({
+      data: dataset,
+  })
 }
