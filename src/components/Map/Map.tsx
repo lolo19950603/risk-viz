@@ -2,11 +2,12 @@
 
 // build map that shows more marker when zoom in
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker} from 'react-leaflet';
 import Leaflet from 'leaflet';
 import { useState, useEffect, useRef } from 'react';
 import DecadeFilter from '../DecadeFilter/DecadeFilter';
-import ColorIndicator from '../ColorIndicator/ColorIndicator'
+import ColorIndicator from '../ColorIndicator/ColorIndicator';
+import PopupList from '../PopupList/PopupList';
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
@@ -19,36 +20,37 @@ export default function Map({data}:{data:any[]}) {
   const decadeFiltersRef = useRef<number[]>([]);
 
   function riskRatingToColour(year : number) {
-    var count:{[key: string]: number} = {}
+    var result:{[key: string]: { assets: any[]; rating: number }} = {}
     data.forEach(asset => {
       if (asset.year === year) {
         const location:string = [asset.lat, asset.long].toString()
-        if (location in count) {
-          count[location] += Number(asset.riskRating)
+        if (location in result) {
+          result[location]['rating'] += Number(asset.riskRating)
+          result[location]['assets'].push(asset)
         }
         else {
-          count[location] = Number(asset.riskRating)
+          result[location] = {assets:[asset], rating:Number(asset.riskRating)}
         }
       }
     })
-    
+
     var answer:JSX.Element[] = []
     var icon:any
 
-    Object.keys(count).map(key => {
-      if (count[key] < 40) {
+    Object.keys(result).map(key => {
+      if (result[key]['rating'] < 40) {
         icon = Leaflet.icon({
           iconUrl: 'images/30-40green.png',
           iconSize: [32, 32]
         })
       }
-      if (40 <= count[key] && count[key] < 50) {
+      if (40 <= result[key]['rating'] && result[key]['rating'] < 50) {
         icon = Leaflet.icon({
           iconUrl: 'images/40-50yellow.png',
           iconSize: [32, 32]
         })
       }
-      if (count[key] >= 50) {
+      if (result[key]['rating'] >= 50) {
         icon = Leaflet.icon({
           iconUrl: 'images/50-60red.png',
           iconSize: [32, 32]
@@ -56,7 +58,7 @@ export default function Map({data}:{data:any[]}) {
       }
       answer.push(
         <Marker key={key} position={[Number(key.split(",")[0]), Number(key.split(",")[1])]} icon={icon}>
-          <Popup>Total Rating: {count[key]}</Popup>
+          <PopupList assets={result[key]['assets']}/>
         </Marker>
       )
     })

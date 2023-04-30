@@ -1,7 +1,4 @@
 export default function DecadeFilter({ filters, activeDecade, setActiveDecade }:{ filters:number[], activeDecade:number, setActiveDecade:Function }) {
-  const handleChange = (event:any) => {
-    setActiveDecade(Number(event.target.value))
-  };
   const fltrs = filters.map(filter =>
     <li
       key={filter}

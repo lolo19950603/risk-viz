@@ -1,6 +1,6 @@
 export default function ColorIndicator() {
   return (
-    <ul className="flex justify-center gap-4 text-black">
+    <ul className="flex justify-start gap-4 text-black">
       <li className="flex">
         <img src="images/30-40green.png"  height="32" width="32" />
         <span className="pt-1">GOOD</span>
