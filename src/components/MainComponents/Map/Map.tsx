@@ -1,29 +1,30 @@
 'use client';
 
-// build map that shows more marker when zoom in
-
 import { MapContainer, TileLayer, Marker} from 'react-leaflet';
 import Leaflet from 'leaflet';
-import { useState, useEffect, useRef } from 'react';
-import DecadeFilter from '../DecadeFilter/DecadeFilter';
-import ColorIndicator from '../ColorIndicator/ColorIndicator';
-import PopupList from '../PopupList/PopupList';
+import ColorIndicator from './ColorIndicator/ColorIndicator';
+import PopupList from './PopupList/PopupList';
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
 
-export default function Map({data}:{data:any[]}) {
-  type activeDecadeLocationType = {[key: string]: number}
-  const [assets, setAssets] = useState<any[]>([]);
-  const [activeDecade, setActiveDecade] = useState(0);
-  // const [activeDecadeLocation, setActiveDecadeLocation] = useState<activeDecadeLocationType>({});
-  const decadeFiltersRef = useRef<number[]>([]);
+type Asset = {
+  id: string;
+  name: string;
+  location: number[];
+  category: string;
+  riskRating: string;
+  riskFactor: { [key: string]: number };
+  year: number;
+};
+
+export default function Map({assets, activeDecade}:{assets:Asset[], activeDecade:number}) {
 
   function riskRatingToColour(year : number) {
     var result:{[key: string]: { assets: any[]; rating: number }} = {}
-    data.forEach(asset => {
+    assets.forEach(asset => {
       if (asset.year === year) {
-        const location:string = [asset.lat, asset.long].toString()
+        const location:string = asset.location.toString()
         if (location in result) {
           result[location]['rating'] += Number(asset.riskRating)
           result[location]['assets'].push(asset)
@@ -34,25 +35,35 @@ export default function Map({data}:{data:any[]}) {
       }
     })
 
+    console.log(result)
+
     var answer:JSX.Element[] = []
     var icon:any
 
     Object.keys(result).map(key => {
-      if (result[key]['rating'] < 40) {
+      const calculation = (result[key]['rating'])/(result[key]['assets'].length);
+      if (calculation < 0.45) {
         icon = Leaflet.icon({
-          iconUrl: 'images/30-40green.png',
+          iconUrl: 'images/green.png',
           iconSize: [32, 32]
         })
       }
-      if (40 <= result[key]['rating'] && result[key]['rating'] < 50) {
+      if (0.45 <= calculation && calculation < 0.50) {
         icon = Leaflet.icon({
-          iconUrl: 'images/40-50yellow.png',
+          iconUrl: 'images/yellow.png',
           iconSize: [32, 32]
         })
       }
-      if (result[key]['rating'] >= 50) {
+      if (0.50 <= calculation && calculation < 0.55) {
         icon = Leaflet.icon({
-          iconUrl: 'images/50-60red.png',
+          iconUrl: 'images/orange.png',
+          iconSize: [32, 32]
+        })
+      }
+      if (calculation >= 0.55) {
+        console.log(calculation)
+        icon = Leaflet.icon({
+          iconUrl: 'images/red.png',
           iconSize: [32, 32]
         })
       }
@@ -65,22 +76,8 @@ export default function Map({data}:{data:any[]}) {
     return answer
   }
 
-  useEffect(function() {
-    async function getAssets() {
-      decadeFiltersRef.current = [...new Set(data.map(asset => asset.year))].sort();
-      setActiveDecade(decadeFiltersRef.current[0]);
-      setAssets(data)
-    }
-    getAssets();
-  }, []);
-
   return (
     <main>
-      <DecadeFilter
-        filters={decadeFiltersRef.current}
-        activeDecade={activeDecade}
-        setActiveDecade={setActiveDecade}
-      />
       <ColorIndicator/>
       <MapContainer center={[50.1304,-98.3468]} zoom={3} scrollWheelZoom={false} style={{width: '100%', height: '80vh'}}>
         <TileLayer

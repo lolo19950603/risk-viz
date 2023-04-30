@@ -13,8 +13,7 @@ datasource db {
 model Asset {
   id            String    @id @default(uuid())
   name          String
-  lat           Decimal   @db.Decimal(65,5)
-  long          Decimal   @db.Decimal(65,5)
+  location      Decimal[] @db.Decimal(65,5)
   category      String
   riskRating    Decimal   @db.Decimal(65,2)
   riskFactor    Json
