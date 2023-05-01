@@ -18,24 +18,20 @@ type Asset = {
   year: number;
 };
 
-export default function Map({assets, activeDecade}:{assets:Asset[], activeDecade:number}) {
+export default function Map({assets}:{assets:Asset[]}) {
 
-  function riskRatingToColour(year : number) {
+  function riskRatingToColour() {
     var result:{[key: string]: { assets: any[]; rating: number }} = {}
     assets.forEach(asset => {
-      if (asset.year === year) {
-        const location:string = asset.location.toString()
-        if (location in result) {
-          result[location]['rating'] += Number(asset.riskRating)
-          result[location]['assets'].push(asset)
-        }
-        else {
-          result[location] = {assets:[asset], rating:Number(asset.riskRating)}
-        }
+      const location:string = asset.location.toString()
+      if (location in result) {
+        result[location]['rating'] += Number(asset.riskRating)
+        result[location]['assets'].push(asset)
+      }
+      else {
+        result[location] = {assets:[asset], rating:Number(asset.riskRating)}
       }
     })
-
-    console.log(result)
 
     var answer:JSX.Element[] = []
     var icon:any
@@ -61,7 +57,6 @@ export default function Map({assets, activeDecade}:{assets:Asset[], activeDecade
         })
       }
       if (calculation >= 0.55) {
-        console.log(calculation)
         icon = Leaflet.icon({
           iconUrl: 'images/red.png',
           iconSize: [32, 32]
@@ -79,12 +74,12 @@ export default function Map({assets, activeDecade}:{assets:Asset[], activeDecade
   return (
     <main>
       <ColorIndicator/>
-      <MapContainer center={[50.1304,-98.3468]} zoom={3} scrollWheelZoom={false} style={{width: '100%', height: '80vh'}}>
+      <MapContainer center={[50.1304,-98.3468]} zoom={3} scrollWheelZoom={false} style={{width: '100%', height: '60vh'}}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {riskRatingToColour(activeDecade)}
+        {riskRatingToColour()}
       </MapContainer>
     </main>
   )

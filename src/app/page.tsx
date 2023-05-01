@@ -22,7 +22,6 @@ async function getDecades() {
   return res.json()
 }
 
-
 async function getAssetsForMap() {
   const res = await fetch("http://localhost:3000/api/assetsForMap", {
     method: "GET",
@@ -57,24 +56,3 @@ export default async function Page() {
     </div>
   );
 }
-
-
-
-
-
-// "use client";
-// import useSWR from 'swr'
-// import MainComponents from "../components/MainComponents/MainComponents";
-
-// const fetcher = (arg: any, ...args: any) => fetch(arg, ...args).then((res) => res.json())
-
-// export default function Page() {
-//   var { data, error, isLoading } = useSWR('/api/decades', fetcher)
-//   if (error) return <div>failed to load</div>
-//   if (isLoading) return <div>loading...</div>
-//   return (
-//     <div>
-//       <MainComponents decade={data}/>
-//     </div>
-//   )
-// }
