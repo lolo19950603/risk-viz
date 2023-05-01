@@ -1,74 +1,70 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker} from 'react-leaflet';
+import { useState, useEffect } from "react"
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leaflet';
 import Leaflet from 'leaflet';
 import ColorIndicator from './ColorIndicator/ColorIndicator';
 import PopupList from './PopupList/PopupList';
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
+import type { Asset } from '@prisma/client'
 
-type Asset = {
-  id: string;
-  name: string;
-  location: number[];
-  category: string;
-  riskRating: string;
-  riskFactor: { [key: string]: number };
-  year: number;
-};
+type AvgByDecades = {
+  avg: string,
+  year: number,
+  location: number[],
+  data: Asset[]
+}
 
-export default function Map({assets}:{assets:Asset[]}) {
-
-  function riskRatingToColour() {
-    var result:{[key: string]: { assets: any[]; rating: number }} = {}
-    assets.forEach(asset => {
-      const location:string = asset.location.toString()
-      if (location in result) {
-        result[location]['rating'] += Number(asset.riskRating)
-        result[location]['assets'].push(asset)
+export default function Map({assets, setActiveLocation, setActiveLocationHandler }:{assets:AvgByDecades[], setActiveLocation:Function; setActiveLocationHandler:Function }) {
+  
+  function LocationMarker() {
+    const map = useMapEvents({
+      click() {
+        setActiveLocation([0,0])
       }
-      else {
-        result[location] = {assets:[asset], rating:Number(asset.riskRating)}
-      }
-    })
+    });
+    return null
+  }
 
-    var answer:JSX.Element[] = []
-    var icon:any
-
-    Object.keys(result).map(key => {
-      const calculation = (result[key]['rating'])/(result[key]['assets'].length);
-      if (calculation < 0.45) {
+  const mapData:Function = function () {
+    const data:JSX.Element[] = []
+    assets.forEach(locationData => {
+      var icon:any
+      if (Number(locationData.avg) < 0.45) {
         icon = Leaflet.icon({
           iconUrl: 'images/green.png',
           iconSize: [32, 32]
         })
       }
-      if (0.45 <= calculation && calculation < 0.50) {
+      else if (0.45 <= Number(locationData.avg) && Number(locationData.avg) < 0.5) {
         icon = Leaflet.icon({
           iconUrl: 'images/yellow.png',
           iconSize: [32, 32]
         })
       }
-      if (0.50 <= calculation && calculation < 0.55) {
+      else if (0.50 <= Number(locationData.avg) && Number(locationData.avg) < 0.55) {
         icon = Leaflet.icon({
           iconUrl: 'images/orange.png',
           iconSize: [32, 32]
         })
       }
-      if (calculation >= 0.55) {
+      else if (Number(locationData.avg) >= 0.55) {
         icon = Leaflet.icon({
           iconUrl: 'images/red.png',
           iconSize: [32, 32]
         })
       }
-      answer.push(
-        <Marker key={key} position={[Number(key.split(",")[0]), Number(key.split(",")[1])]} icon={icon}>
-          <PopupList assets={result[key]['assets']}/>
+      const location:number[] = [Number(locationData.location[0]), Number(locationData.location[1])];
+      data.push(
+        <Marker eventHandlers={{click: (e) => setActiveLocationHandler(location)}} key={locationData.location.toString()} position={[Number(locationData.location[0]), Number(locationData.location[1])]} icon={icon}>
+          <PopupList assets={locationData.data}/>
         </Marker>
+
       )
     })
-    return answer
+    return data;
   }
 
   return (
@@ -79,7 +75,8 @@ export default function Map({assets}:{assets:Asset[]}) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {riskRatingToColour()}
+        {mapData()}
+        <LocationMarker/>
       </MapContainer>
     </main>
   )

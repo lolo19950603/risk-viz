@@ -1,19 +1,17 @@
 import MainComponents from "../components/MainComponents/MainComponents";
+import type { Asset } from '@prisma/client'
 
-type Asset = {
-  id: string;
-  name: string;
-  location: number[];
-  category: string;
-  riskRating: string;
-  riskFactor: { [key: string]: number };
-  year: number;
-};
+type AvgByDecades = {
+  avg: string,
+  year: number,
+  location: number[],
+  data: Asset[]
+}
 
 async function getDecades() {
   const res = await fetch("http://localhost:3000/api/decades", {
     method: "GET",
-    cache: "no-cache",
+    cache: "force-cache",
   });
   if (!res.ok) {
     console.log(res);
@@ -22,10 +20,22 @@ async function getDecades() {
   return res.json()
 }
 
-async function getAssetsForMap() {
-  const res = await fetch("http://localhost:3000/api/assetsForMap", {
+async function getLocations() {
+  const res = await fetch("http://localhost:3000/api/locations", {
     method: "GET",
-    cache: "no-cache",
+    cache: "force-cache",
+  });
+  if (!res.ok) {
+    console.log(res);
+  }
+
+  return res.json()
+}
+
+async function getAvgByDecades() {
+  const res = await fetch("http://localhost:3000/api/avgByDecades", {
+    method: "GET",
+    cache: "force-cache",
   });
   if (!res.ok) {
     console.log(res);
@@ -37,7 +47,7 @@ async function getAssetsForMap() {
 async function getAssets() {
   const res = await fetch("http://localhost:3000/api/assets/", {
     method: "GET",
-    cache: "no-cache",
+    cache: "force-cache",
   });
   if (!res.ok) {
     console.log(res);
@@ -47,12 +57,14 @@ async function getAssets() {
 
 export default async function Page() {
   const decades:{year:number}[] = await getDecades();
+  const locations:{location:number[]}[] = await getLocations();
   const assetsData:Asset[] = await getAssets();
+  const avgByDecadesData:AvgByDecades[] = await getAvgByDecades();
   const decadesList:number[] = [...new Set(decades.map(decade => decade.year))].sort();
-  
+  const locationsList:number[][] = [...new Set(locations.map(decade => decade.location))].sort();
   return (
     <div className="m-8">
-      <MainComponents decadesList={decadesList} assetsData={assetsData}/>
+      <MainComponents decadesList={decadesList} locationsList={locationsList} assetsData={assetsData} avgByDecadesData={avgByDecadesData}/>
     </div>
   );
 }
