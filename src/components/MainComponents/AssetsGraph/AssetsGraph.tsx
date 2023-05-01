@@ -4,17 +4,14 @@ import { Chart } from 'primereact/chart';
 import { useState, useEffect } from "react"
 import type { Asset } from '@prisma/client'
 
-// type Asset = {
-//     id: string;
-//     name: string;
-//     location: number[];
-//     category: string;
-//     riskRating: string;
-//     riskFactor: { [key: string]: number };
-//     year: number;
-//   };
+type AvgByDecades = {
+    avg: string,
+    year: number,
+    location: number[],
+    data: Asset[]
+  }
 
-export default function AssetsGraph({ assets, labels, activeDecade }: { assets: Asset[], labels:number[], activeDecade:number }) {
+export default function AssetsGraph({ assets, labels, activeDecade, activeLocation }: { assets: AvgByDecades[], labels:number[], activeDecade:number, activeLocation:number[] }) {
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
   useEffect(() => {
@@ -22,12 +19,13 @@ export default function AssetsGraph({ assets, labels, activeDecade }: { assets: 
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    const dataList:number[] = assets.filter(asset => Number(asset.location[0]) === activeLocation[0] && Number(asset.location[1]) === activeLocation[1]).map(asset => Number(asset.avg))
     const data = {
       labels: labels,
       datasets: [
           {
-              label: {activeDecade},
-              data: [65, 59, 80, 81, 56, 55, 40],
+              label: `LOCATION : [${activeLocation[0]}, ${activeLocation[1]}]`,
+              data: dataList,
               fill: false,
               borderColor: documentStyle.getPropertyValue('--blue-500'),
               tension: 0.4
@@ -65,7 +63,7 @@ export default function AssetsGraph({ assets, labels, activeDecade }: { assets: 
   };
   setChartOptions(options);
   setChartData(data)
-  }, []);
+  }, [activeLocation]);
 
   return (
     <Chart type="line" data={chartData} options={chartOptions} />

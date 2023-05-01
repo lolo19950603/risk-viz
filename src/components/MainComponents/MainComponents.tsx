@@ -22,7 +22,7 @@ const MapWithNoSSR = dynamic(() => import("./Map/Map"), {
 export default function MainComponents({decadesList, locationsList, assetsData, avgByDecadesData }:{decadesList:number[], locationsList:number[][], assetsData:Asset[], avgByDecadesData:AvgByDecades[]} ) {
   const [assets, setAssets] = useState<AvgByDecades[]>([]);
   const [activeDecade, setActiveDecade] = useState(decadesList[0]);
-  const [activeLocation, setActiveLocation] = useState<number[]>([0,0]);
+  const [activeLocation, setActiveLocation] = useState<number[]>(locationsList[0]);
   const decadeFiltersRef = useRef<number[]>(decadesList);
   const locationFiltersRef = useRef<number[][]>(locationsList);
 
@@ -37,6 +37,7 @@ export default function MainComponents({decadesList, locationsList, assetsData, 
 
   function setAssetsHandler(year : number) {
     setAssets(avgByDecadesData.filter(asset => asset.year === year))
+    
   }
   useEffect(function() {
     setAssetsHandler(decadesList[0]);
@@ -57,8 +58,8 @@ export default function MainComponents({decadesList, locationsList, assetsData, 
         />
       </div>
       <MapWithNoSSR assets={assets} setActiveLocation={setActiveLocation} setActiveLocationHandler={setActiveLocationHandler}/>
-      <AssetsTable assets={assets} activeLocation={activeLocation}/>
-      {/* <AssetsGraph assets={assets} labels={decadeFiltersRef.current} activeDecade={activeDecade} /> */}
+      {/* <AssetsTable assets={assets} activeLocation={activeLocation}/> */}
+      <AssetsGraph assets={avgByDecadesData} labels={decadeFiltersRef.current} activeDecade={activeDecade} activeLocation={activeLocation} />
     </div>
   );
 }
