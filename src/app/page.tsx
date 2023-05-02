@@ -21,7 +21,7 @@ type AvgByCategories = {
 };
 
 async function getDecades() {
-  const res = await fetch('http://localhost:3000/api/decades', {
+  const res = await fetch('https://risk-viz-production.up.railway.app/api/decades', {
     method: "GET",
     cache: "force-cache",
   });
@@ -33,7 +33,7 @@ async function getDecades() {
 }
 
 async function getLocations() {
-  const res = await fetch('http://localhost:3000/api/locations', {
+  const res = await fetch('https://risk-viz-production.up.railway.app/api/locations', {
     method: "GET",
     cache: "force-cache",
   });
@@ -45,7 +45,7 @@ async function getLocations() {
 }
 
 async function getAvgByDecades() {
-  const res = await fetch('http://localhost:3000/api/avgByDecades', {
+  const res = await fetch('https://risk-viz-production.up.railway.app/api/avgByDecades', {
     method: "GET",
     cache: "force-cache",
   });
@@ -57,7 +57,7 @@ async function getAvgByDecades() {
 }
 
 async function getAvgByAssets() {
-  const res = await fetch('http://localhost:3000/api/avgByAssets', {
+  const res = await fetch('https://risk-viz-production.up.railway.app/api/avgByAssets', {
     method: "GET",
     cache: "force-cache",
   });
@@ -68,7 +68,7 @@ async function getAvgByAssets() {
 }
 
 async function getAvgByCategories() {
-  const res = await fetch('http://localhost:3000/api/avgByCategories', {
+  const res = await fetch('https://risk-viz-production.up.railway.app/api/avgByCategories', {
     method: "GET",
     cache: "force-cache",
   });
@@ -79,31 +79,31 @@ async function getAvgByCategories() {
 }
 
 export default async function Page() {
-  // const decades: { year: number }[] = await getDecades();
-  // const locations: { location: number[] }[] = await getLocations();
-  // const avgByDecadesData: AvgByDecades[] = await getAvgByDecades();
-  // const avgByAssetsData: AvgByAssets[] = await getAvgByAssets();
-  // const avgByCategoriesData: AvgByCategories[] = await getAvgByCategories();
-  // const decadesList: number[] = [
-  //   ...new Set(decades.map((decade) => decade.year)),
-  // ].sort();
-  // const locationsList: number[][] = [
-  //   ...new Set(
-  //     locations.map((location) => [
-  //       Number(location.location[0]),
-  //       Number(location.location[1]),
-  //     ])
-  //   ),
-  // ].sort();
+  const decades: { year: number }[] = await getDecades();
+  const locations: { location: number[] }[] = await getLocations();
+  const avgByDecadesData: AvgByDecades[] = await getAvgByDecades();
+  const avgByAssetsData: AvgByAssets[] = await getAvgByAssets();
+  const avgByCategoriesData: AvgByCategories[] = await getAvgByCategories();
+  const decadesList: number[] = [
+    ...new Set(decades.map((decade) => decade.year)),
+  ].sort();
+  const locationsList: number[][] = [
+    ...new Set(
+      locations.map((location) => [
+        Number(location.location[0]),
+        Number(location.location[1]),
+      ])
+    ),
+  ].sort();
   return (
     <div className="">
-      {/* <MainComponents
+      <MainComponents
         decadesList={decadesList}
         locationsList={locationsList}
         avgByDecadesData={avgByDecadesData}
         avgByAssetsData={avgByAssetsData}
         avgByCategoriesData={avgByCategoriesData}
-      /> */}
+      />
     </div>
   );
 }
