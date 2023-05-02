@@ -21,7 +21,7 @@ type AvgByCategories = {
 };
 
 async function getDecades() {
-  const res = await fetch(`${process.env.DATABASE_URL}/api/decades`, {
+  const res = await fetch(`/api/decades`, {
     method: "GET",
     cache: "force-cache",
   });
@@ -33,7 +33,7 @@ async function getDecades() {
 }
 
 async function getLocations() {
-  const res = await fetch(`${process.env.DATABASE_URL}/api/locations`, {
+  const res = await fetch(`/api/locations`, {
     method: "GET",
     cache: "force-cache",
   });
@@ -45,7 +45,7 @@ async function getLocations() {
 }
 
 async function getAvgByDecades() {
-  const res = await fetch(`${process.env.DATABASE_URL}/api/avgByDecades`, {
+  const res = await fetch(`/api/avgByDecades`, {
     method: "GET",
     cache: "force-cache",
   });
