@@ -21,7 +21,7 @@ type AvgByCategories = {
 };
 
 async function getDecades() {
-  const res = await fetch("http://localhost:3000/api/decades", {
+  const res = await fetch("/api/decades", {
     method: "GET",
     cache: "force-cache",
   });
@@ -33,7 +33,7 @@ async function getDecades() {
 }
 
 async function getLocations() {
-  const res = await fetch("http://localhost:3000/api/locations", {
+  const res = await fetch("/api/locations", {
     method: "GET",
     cache: "force-cache",
   });
@@ -45,7 +45,7 @@ async function getLocations() {
 }
 
 async function getAvgByDecades() {
-  const res = await fetch("http://localhost:3000/api/avgByDecades", {
+  const res = await fetch("/api/avgByDecades", {
     method: "GET",
     cache: "force-cache",
   });
@@ -57,7 +57,7 @@ async function getAvgByDecades() {
 }
 
 async function getAvgByAssets() {
-  const res = await fetch("http://localhost:3000/api/avgByAssets/", {
+  const res = await fetch("/api/avgByAssets/", {
     method: "GET",
     cache: "force-cache",
   });
@@ -68,7 +68,7 @@ async function getAvgByAssets() {
 }
 
 async function getAvgByCategories() {
-  const res = await fetch("http://localhost:3000/api/avgByCategories/", {
+  const res = await fetch("/api/avgByCategories/", {
     method: "GET",
     cache: "force-cache",
   });
