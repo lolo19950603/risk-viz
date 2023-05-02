@@ -15,14 +15,26 @@ type AvgByDecades = {
   data: Asset[]
 }
 
+type AvgByAssets = {
+  avg: string,
+  year: number,
+  name: string
+}
+
+type AvgByCategories = {
+  avg: string,
+  year: number,
+  category: string
+}
+
 const MapWithNoSSR = dynamic(() => import("./Map/Map"), {
   ssr: false,
 });
 
-export default function MainComponents({decadesList, locationsList, assetsData, avgByDecadesData }:{decadesList:number[], locationsList:number[][], assetsData:Asset[], avgByDecadesData:AvgByDecades[]} ) {
+export default function MainComponents({decadesList, locationsList, avgByDecadesData, avgByAssetsData, avgByCategoriesData }:{decadesList:number[], locationsList:number[][], avgByDecadesData:AvgByDecades[], avgByAssetsData:AvgByAssets[], avgByCategoriesData:AvgByCategories[] } ) {
   const [assets, setAssets] = useState<AvgByDecades[]>([]);
   const [activeDecade, setActiveDecade] = useState(decadesList[0]);
-  const [activeLocation, setActiveLocation] = useState<number[]>(locationsList[0]);
+  const [activeLocation, setActiveLocation] = useState<number[]>([0,0]);
   const decadeFiltersRef = useRef<number[]>(decadesList);
   const locationFiltersRef = useRef<number[][]>(locationsList);
 
@@ -58,8 +70,8 @@ export default function MainComponents({decadesList, locationsList, assetsData, 
         />
       </div>
       <MapWithNoSSR assets={assets} setActiveLocation={setActiveLocation} setActiveLocationHandler={setActiveLocationHandler}/>
-      {/* <AssetsTable assets={assets} activeLocation={activeLocation}/> */}
-      <AssetsGraph assets={avgByDecadesData} labels={decadeFiltersRef.current} activeDecade={activeDecade} activeLocation={activeLocation} />
+      <AssetsTable assets={assets} activeLocation={activeLocation}/>
+      <AssetsGraph assets={avgByDecadesData} labels={decadeFiltersRef.current} activeLocation={activeLocation} avgByAssetsData={avgByAssetsData} avgByCategoriesData={avgByCategoriesData}/>
     </div>
   );
 }

@@ -8,6 +8,18 @@ type AvgByDecades = {
   data: Asset[]
 }
 
+type AvgByAssets = {
+  avg: string,
+  year: number,
+  name: string
+}
+
+type AvgByCategories = {
+  avg: string,
+  year: number,
+  category: string
+}
+
 async function getDecades() {
   const res = await fetch("http://localhost:3000/api/decades", {
     method: "GET",
@@ -44,8 +56,19 @@ async function getAvgByDecades() {
   return res.json()
 }
 
-async function getAssets() {
-  const res = await fetch("http://localhost:3000/api/assets/", {
+async function getAvgByAssets() {
+  const res = await fetch("http://localhost:3000/api/avgByAssets/", {
+    method: "GET",
+    cache: "force-cache",
+  });
+  if (!res.ok) {
+    console.log(res);
+  }
+  return res.json()
+}
+
+async function getAvgByCategories() {
+  const res = await fetch("http://localhost:3000/api/avgByCategories/", {
     method: "GET",
     cache: "force-cache",
   });
@@ -58,13 +81,14 @@ async function getAssets() {
 export default async function Page() {
   const decades:{year:number}[] = await getDecades();
   const locations:{location:number[]}[] = await getLocations();
-  const assetsData:Asset[] = await getAssets();
   const avgByDecadesData:AvgByDecades[] = await getAvgByDecades();
+  const avgByAssetsData:AvgByAssets[] = await getAvgByAssets();
+  const avgByCategoriesData:AvgByCategories[] = await getAvgByCategories();
   const decadesList:number[] = [...new Set(decades.map(decade => decade.year))].sort();
   const locationsList:number[][] = [...new Set(locations.map(location => [Number(location.location[0]), Number(location.location[1])]))].sort();
   return (
     <div className="m-8">
-      <MainComponents decadesList={decadesList} locationsList={locationsList} assetsData={assetsData} avgByDecadesData={avgByDecadesData}/>
+      <MainComponents decadesList={decadesList} locationsList={locationsList} avgByDecadesData={avgByDecadesData} avgByAssetsData={avgByAssetsData} avgByCategoriesData={avgByCategoriesData} />
     </div>
   );
 }
