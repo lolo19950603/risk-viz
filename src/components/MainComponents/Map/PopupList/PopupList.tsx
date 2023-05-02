@@ -5,7 +5,7 @@ import {Column} from "primereact/column"
 export default function PopupList({ assets }: { assets: any[] }) {
   return (
     <Popup>
-      <DataTable className="h-48 overflow-auto" value={assets}>
+      <DataTable className="h-48 overflow-auto" showGridlines value={assets}>
         <Column field="name" header="Name" />
         <Column field="category" header="Category" />
       </DataTable>

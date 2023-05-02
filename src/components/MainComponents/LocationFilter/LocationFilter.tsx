@@ -10,7 +10,7 @@ export default function LocationFilter({ filters, activeLocation, setActiveLocat
         setActiveLocationHandler([Number(filter[0]), Number(filter[1])])
       }}
     >
-      {filter.toLocaleString()}
+      {filter[0].toString()+", "+filter[1].toString()}
     </li>
   );
   return (

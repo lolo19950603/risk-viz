@@ -64,9 +64,10 @@ export default function AssetsGraph({
           {
             label: `${input}`,
             data: dataList,
-            fill: false,
-            borderColor: documentStyle.getPropertyValue("--blue-500"),
+            fill: true,
+            borderColor: 'rgb(245 158 11)',
             tension: 0.4,
+            backgroundColor: 'rgba(255,167,38,0.2)'
           },
         ],
       };
@@ -85,9 +86,10 @@ export default function AssetsGraph({
           {
             label: `${activeLocation}`,
             data: dataList,
-            fill: false,
-            borderColor: documentStyle.getPropertyValue("--blue-500"),
+            fill: true,
+            borderColor: 'rgb(245 158 11)',
             tension: 0.4,
+            backgroundColor: 'rgba(255,167,38,0.2)'
           },
         ],
       };
@@ -108,7 +110,7 @@ export default function AssetsGraph({
     const textColorSecondary = documentStyle.getPropertyValue(
       "--text-color-secondary"
     );
-    const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
+    const surfaceBorder = "rgb(211, 211, 211)";
 
     const options = {
       maintainAspectRatio: false,
@@ -122,6 +124,11 @@ export default function AssetsGraph({
       },
       scales: {
         x: {
+          title: {
+            display: true,
+            text: "Year"
+          }
+          ,
           ticks: {
             color: textColorSecondary,
           },
@@ -130,6 +137,11 @@ export default function AssetsGraph({
           },
         },
         y: {
+          title: {
+            display: true,
+            text: "Risk Rating"
+          }
+          ,
           ticks: {
             color: textColorSecondary,
           },
@@ -151,7 +163,7 @@ export default function AssetsGraph({
 
   return (
     <main className="mt-10">
-      <div className="pb-0.5 mt-10 w-full rounded-md drop-shadow-lg">
+      <div className="pb-0.5 mt-10 w-full bg-white rounded-md drop-shadow-lg">
         <CategoriesFilter
           filters={CategoriesFiltersRef.current}
           activeCat={activeCat}
