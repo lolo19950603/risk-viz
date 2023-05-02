@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<br />
+<div align="center">
+<h1 align="center">Risk-Viz</h1>
 
-## Getting Started
+  <p align="center">
+    Risk-Viz is a full-stack application that utilizes various data visualization tools to analyze risk ratings.
+    <br />
+    <a href="https://risk-viz-production.up.railway.app/">Open App</a>
+  </p>
+</div>
 
-First, run the development server:
+<!-- TABLE OF CONTENTS -->
+<div>
+  <h2>Table of Contents</h2>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#issues">Issues or Enhancements</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+<!-- ABOUT THE PROJECT -->
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## About The Project
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<div align = 'center'>
+Risk-Viz is a web application designed to help businesses visualize and analyze their risk ratings across different locations, assets, and business categories. The application uses data from a variety of sources, including risk assessments, audits, and incident reports, to generate interactive visualizations and insights that help users identify trends and potential areas of risk.
+</div>
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Built With 
+- next.js
 
-## Learn More
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-To learn more about Next.js, take a look at the following resources:
+<!-- ROADMAP -->
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Road Map
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. The project was built using create next-app.
+    ```shell
+    npx create-next-app@latest risk-viz --ts --tailwind --eslint --src-dir --import-alias "@/*" --experimental-app
+    ```
+2. Next, Prisma was installed and connected to an online PostgreSQL database using Railway. The data was then loaded and parsed into the table using script.ts.
+3. Leaflet was integrated to vidualize data on the map.
+6. Risk data was shown on a Datatable using primereact.
+7. Finally, a graph was implemented to show trends of risk ratings over the years.
+8. Deployed using railway.app
 
-## Deploy on Vercel
+## Usage and Interactivity
+### Users are able to:
+1. select different data from different decades and the results will be reflected on the map, table and graph.
+2. select markers on the map of a given decade year.
+3. zooming and panning, and display a tooltip with the Asset Name and Business Category on marker hover. (The average of risk ratings was calculated for assets that are located in the same location and year).
+4. sort and filter on reasonable columns on the data table.
+5. interact on the line graph and select location (Lat, Long), Asset, or Business Category over time.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<!-- references  -->
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## REFERENCES 
+
+- [DataTable](https://primereact.org/datatable/)
+- [Reaflet onCkick event](https://snyk.io/advisor/npm-package/react-leaflet/functions/react-leaflet.Marker)
+- [Chart](https://primereact.org/chart/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
