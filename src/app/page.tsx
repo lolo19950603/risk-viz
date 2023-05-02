@@ -1,24 +1,24 @@
 import MainComponents from "../components/MainComponents/MainComponents";
-import type { Asset } from '@prisma/client'
+import type { Asset } from "@prisma/client";
 
 type AvgByDecades = {
-  avg: string,
-  year: number,
-  location: number[],
-  data: Asset[]
-}
+  avg: string;
+  year: number;
+  location: number[];
+  data: Asset[];
+};
 
 type AvgByAssets = {
-  avg: string,
-  year: number,
-  name: string
-}
+  avg: string;
+  year: number;
+  name: string;
+};
 
 type AvgByCategories = {
-  avg: string,
-  year: number,
-  category: string
-}
+  avg: string;
+  year: number;
+  category: string;
+};
 
 async function getDecades() {
   const res = await fetch("http://localhost:3000/api/decades", {
@@ -29,7 +29,7 @@ async function getDecades() {
     console.log(res);
   }
 
-  return res.json()
+  return res.json();
 }
 
 async function getLocations() {
@@ -41,7 +41,7 @@ async function getLocations() {
     console.log(res);
   }
 
-  return res.json()
+  return res.json();
 }
 
 async function getAvgByDecades() {
@@ -53,7 +53,7 @@ async function getAvgByDecades() {
     console.log(res);
   }
 
-  return res.json()
+  return res.json();
 }
 
 async function getAvgByAssets() {
@@ -64,7 +64,7 @@ async function getAvgByAssets() {
   if (!res.ok) {
     console.log(res);
   }
-  return res.json()
+  return res.json();
 }
 
 async function getAvgByCategories() {
@@ -75,20 +75,35 @@ async function getAvgByCategories() {
   if (!res.ok) {
     console.log(res);
   }
-  return res.json()
+  return res.json();
 }
 
 export default async function Page() {
-  const decades:{year:number}[] = await getDecades();
-  const locations:{location:number[]}[] = await getLocations();
-  const avgByDecadesData:AvgByDecades[] = await getAvgByDecades();
-  const avgByAssetsData:AvgByAssets[] = await getAvgByAssets();
-  const avgByCategoriesData:AvgByCategories[] = await getAvgByCategories();
-  const decadesList:number[] = [...new Set(decades.map(decade => decade.year))].sort();
-  const locationsList:number[][] = [...new Set(locations.map(location => [Number(location.location[0]), Number(location.location[1])]))].sort();
+  const decades: { year: number }[] = await getDecades();
+  const locations: { location: number[] }[] = await getLocations();
+  const avgByDecadesData: AvgByDecades[] = await getAvgByDecades();
+  const avgByAssetsData: AvgByAssets[] = await getAvgByAssets();
+  const avgByCategoriesData: AvgByCategories[] = await getAvgByCategories();
+  const decadesList: number[] = [
+    ...new Set(decades.map((decade) => decade.year)),
+  ].sort();
+  const locationsList: number[][] = [
+    ...new Set(
+      locations.map((location) => [
+        Number(location.location[0]),
+        Number(location.location[1]),
+      ])
+    ),
+  ].sort();
   return (
     <div className="">
-      <MainComponents decadesList={decadesList} locationsList={locationsList} avgByDecadesData={avgByDecadesData} avgByAssetsData={avgByAssetsData} avgByCategoriesData={avgByCategoriesData} />
+      <MainComponents
+        decadesList={decadesList}
+        locationsList={locationsList}
+        avgByDecadesData={avgByDecadesData}
+        avgByAssetsData={avgByAssetsData}
+        avgByCategoriesData={avgByCategoriesData}
+      />
     </div>
   );
 }

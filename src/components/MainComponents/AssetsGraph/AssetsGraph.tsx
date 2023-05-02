@@ -65,9 +65,9 @@ export default function AssetsGraph({
             label: `${input}`,
             data: dataList,
             fill: true,
-            borderColor: 'rgb(245 158 11)',
+            borderColor: "rgb(245 158 11)",
             tension: 0.4,
-            backgroundColor: 'rgba(255,167,38,0.2)'
+            backgroundColor: "rgba(255,167,38,0.2)",
           },
         ],
       };
@@ -87,9 +87,9 @@ export default function AssetsGraph({
             label: `${activeLocation}`,
             data: dataList,
             fill: true,
-            borderColor: 'rgb(245 158 11)',
+            borderColor: "rgb(245 158 11)",
             tension: 0.4,
-            backgroundColor: 'rgba(255,167,38,0.2)'
+            backgroundColor: "rgba(255,167,38,0.2)",
           },
         ],
       };
@@ -126,9 +126,8 @@ export default function AssetsGraph({
         x: {
           title: {
             display: true,
-            text: "Year"
-          }
-          ,
+            text: "Year",
+          },
           ticks: {
             color: textColorSecondary,
           },
@@ -139,9 +138,8 @@ export default function AssetsGraph({
         y: {
           title: {
             display: true,
-            text: "Risk Rating"
-          }
-          ,
+            text: "Risk Rating",
+          },
           ticks: {
             color: textColorSecondary,
           },
@@ -175,7 +173,12 @@ export default function AssetsGraph({
           setChartDataListHandler={setChartDataListHandler}
         />
       </div>
-      <Chart className="max-w-4xl m-auto pt-3" type="line" data={chartData} options={chartOptions} />
+      <Chart
+        className="max-w-4xl m-auto pt-3"
+        type="line"
+        data={chartData}
+        options={chartOptions}
+      />
     </main>
   );
 }

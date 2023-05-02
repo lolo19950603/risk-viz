@@ -1,6 +1,6 @@
 import prisma from "../../../../prisma/client";
 import { NextResponse } from "next/server";
-import type { Asset } from '@prisma/client'
+import type { Asset } from "@prisma/client";
 
 export async function GET(request: Request) {
   try {
