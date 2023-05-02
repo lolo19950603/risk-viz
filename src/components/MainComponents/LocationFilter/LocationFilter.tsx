@@ -3,9 +3,9 @@ export default function LocationFilter({ filters, activeLocation, setActiveLocat
     <li
       key={filter.toString()}
       className={Number(filter[0]) === activeLocation[0] && Number(filter[1]) === activeLocation[1] ? 
-        'p-4 rounded-lg text-center border border-gray-300 text-white bg-amber-500 cursor-pointer' 
+        'min-w-fit mb-2 p-4 rounded-lg text-center border border-gray-300 text-white bg-amber-500 cursor-pointer' 
         :
-        'p-4 rounded-lg text-center border border-gray-300 cursor-pointer  hover:bg-amber-500 hover:text-white hover:drop-shadow-2xl transition-all duration-200'}
+        'min-w-fit mb-2 p-4 rounded-lg text-center border border-gray-300 cursor-pointer  hover:bg-amber-500 hover:text-white hover:drop-shadow-2xl transition-all duration-200'}
       onClick={() => {
         setActiveLocationHandler([Number(filter[0]), Number(filter[1])])
       }}
@@ -15,10 +15,12 @@ export default function LocationFilter({ filters, activeLocation, setActiveLocat
   );
   return (
     <main>
-      <div className="flex justify-center mt-4 mb-2">Location</div>
-      <ul className="flex justify-center gap-4 mb-5 text-black hover:overflow-x-scroll">
-        {fltrs}
-      </ul>
+      <div className="flex justify-center mt-4 mb-2"><b>Location</b></div>
+      <div className="m-5">
+        <ul className="flex justify-between gap-4 mb-3 text-black overflow-x-auto">
+          {fltrs}
+        </ul>
+      </div>
     </main>
   );
 }

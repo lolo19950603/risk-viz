@@ -1,6 +1,6 @@
 export default function ColorIndicator() {
   return (
-    <ul className="flex justify-start gap-4 text-black">
+    <ul className="flex justify-start gap-4 pb-1 text-black">
       <li className="flex">
         <span className="pt-1"><b>Average Risk Rating :</b></span>
       </li>

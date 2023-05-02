@@ -66,16 +66,15 @@ export default function Map({assets, setActiveLocation, setActiveLocationHandler
     })
     return data;
   }
-
   return (
-    <main>
+    <main className="max-w-4xl m-auto pt-2">
       <ColorIndicator/>
-      <MapContainer center={[50.1304,-98.3468]} zoom={3} scrollWheelZoom={false} style={{width: '100%', height: '60vh', zIndex: -1}}>
+      <MapContainer center={[50.1304,-98.3468]} zoom={3} scrollWheelZoom={false} style={{width: '100%', height: '60vh', zIndex: 1}}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {mapData()}
+        <div>{mapData()}</div>
         <LocationMarker/>
       </MapContainer>
     </main>

@@ -6,8 +6,6 @@ export default function PopupList({ assets }: { assets: any[] }) {
   return (
     <Popup>
       <DataTable className="h-48 overflow-auto" value={assets}>
-        <Column field="year" header="Year" />
-        <Column field="location" header="Location" />
         <Column field="name" header="Name" />
         <Column field="category" header="Category" />
       </DataTable>

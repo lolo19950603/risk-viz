@@ -150,18 +150,20 @@ export default function AssetsGraph({
   }, [activeLocation]);
 
   return (
-    <main className="">
-      {/* <AssetsFilter
-        filters={AssetsFiltersRef.current}
-        activeCat={activeCat}
-        setChartDataListHandler={setChartDataListHandler}
-      />
-      <CategoriesFilter
-        filters={CategoriesFiltersRef.current}
-        activeCat={activeCat}
-        setChartDataListHandler={setChartDataListHandler}
-      /> */}
-      <Chart type="line" data={chartData} options={chartOptions} />
+    <main className="mt-10">
+      <div className="pb-0.5 mt-10 w-full rounded-md drop-shadow-lg">
+        <CategoriesFilter
+          filters={CategoriesFiltersRef.current}
+          activeCat={activeCat}
+          setChartDataListHandler={setChartDataListHandler}
+        />
+        <AssetsFilter
+          filters={AssetsFiltersRef.current}
+          activeCat={activeCat}
+          setChartDataListHandler={setChartDataListHandler}
+        />
+      </div>
+      <Chart className="max-w-4xl m-auto pt-3" type="line" data={chartData} options={chartOptions} />
     </main>
   );
 }
