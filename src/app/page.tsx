@@ -87,7 +87,7 @@ export default async function Page() {
   const decadesList:number[] = [...new Set(decades.map(decade => decade.year))].sort();
   const locationsList:number[][] = [...new Set(locations.map(location => [Number(location.location[0]), Number(location.location[1])]))].sort();
   return (
-    <div className="m-8">
+    <div className="">
       <MainComponents decadesList={decadesList} locationsList={locationsList} avgByDecadesData={avgByDecadesData} avgByAssetsData={avgByAssetsData} avgByCategoriesData={avgByCategoriesData} />
     </div>
   );

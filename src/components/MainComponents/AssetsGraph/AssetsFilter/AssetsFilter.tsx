@@ -11,7 +11,7 @@ export default function AssetsFilter({ filters, activeCat, setChartDataListHandl
       </li>
     );
     return (
-      <ul className="flex justify-center gap-4 text-black p-0 m-8">
+      <ul className="flex justify-center gap-4 text-black m-4">
         {fltrs}
       </ul>
     );

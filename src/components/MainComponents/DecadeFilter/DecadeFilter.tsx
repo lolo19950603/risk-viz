@@ -2,7 +2,10 @@ export default function DecadeFilter({ filters, activeDecade, setActiveDecade, s
   const fltrs = filters.map(filter =>
     <li
       key={filter}
-      className={filter === activeDecade ? 'p-2 rounded-lg text-center text-white bg-black border cursor-pointer' : 'p-2 rounded-lg text-center border cursor-pointer hover:bg-gray-400 hover:border-gray-400'}
+      className={filter === activeDecade ? 
+        'p-2 rounded-lg text-center border border-gray-300 text-white bg-amber-500 cursor-pointer' 
+        :
+        'p-2 rounded-lg text-center border border-gray-300 cursor-pointer  hover:bg-amber-500 hover:text-white hover:drop-shadow-2xl transition-all duration-200'}
       onClick={() => {
         setActiveDecade(filter)
         setAssetsHandler(filter)
@@ -12,8 +15,11 @@ export default function DecadeFilter({ filters, activeDecade, setActiveDecade, s
     </li>
   );
   return (
-    <ul className="flex justify-center gap-4 text-black p-0 m-8">
-      {fltrs}
-    </ul>
+    <main>
+      <div className="flex justify-center mt-4 mb-2">Year</div>
+      <ul className="flex justify-center gap-4 text-black">
+        {fltrs}
+      </ul>
+    </main>
   );
 }

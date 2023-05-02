@@ -55,8 +55,8 @@ export default function MainComponents({decadesList, locationsList, avgByDecades
     setAssetsHandler(decadesList[0]);
   }, []);
   return (
-    <div className="m-8">
-      <div className="flex">
+    <main className="">
+      <div className="fixed z-50 w-full bg-white bg-opacity-70 rounded-md drop-shadow-lg">
         <DecadeFilter
           filters={decadeFiltersRef.current}
           activeDecade={activeDecade}
@@ -69,9 +69,11 @@ export default function MainComponents({decadesList, locationsList, avgByDecades
           setActiveLocationHandler={setActiveLocationHandler}
         />
       </div>
-      <MapWithNoSSR assets={assets} setActiveLocation={setActiveLocation} setActiveLocationHandler={setActiveLocationHandler}/>
-      <AssetsTable assets={assets} activeLocation={activeLocation}/>
-      <AssetsGraph assets={avgByDecadesData} labels={decadeFiltersRef.current} activeLocation={activeLocation} avgByAssetsData={avgByAssetsData} avgByCategoriesData={avgByCategoriesData}/>
-    </div>
+      <div className="pt-60">
+        <MapWithNoSSR assets={assets} setActiveLocation={setActiveLocation} setActiveLocationHandler={setActiveLocationHandler}/>
+        <AssetsTable assets={assets} activeLocation={activeLocation}/>
+        <AssetsGraph assets={avgByDecadesData} labels={decadeFiltersRef.current} activeLocation={activeLocation} avgByAssetsData={avgByAssetsData} avgByCategoriesData={avgByCategoriesData} />
+      </div>
+    </main>
   );
 }

@@ -150,8 +150,8 @@ export default function AssetsGraph({
   }, [activeLocation]);
 
   return (
-    <main>
-      <AssetsFilter
+    <main className="">
+      {/* <AssetsFilter
         filters={AssetsFiltersRef.current}
         activeCat={activeCat}
         setChartDataListHandler={setChartDataListHandler}
@@ -160,7 +160,7 @@ export default function AssetsGraph({
         filters={CategoriesFiltersRef.current}
         activeCat={activeCat}
         setChartDataListHandler={setChartDataListHandler}
-      />
+      /> */}
       <Chart type="line" data={chartData} options={chartOptions} />
     </main>
   );
